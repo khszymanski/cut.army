@@ -6,6 +6,7 @@ use App\Entity\Url;
 use App\Form\UrlFormType;
 use App\Repository\UrlRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Hashids\Hashids;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -46,9 +47,11 @@ class UrlsController extends AbstractController
 
             $id = $newURL->getId();
 
+            $hashids = new Hashids();
+
             return $this->render('index.html.twig', [
                 'form' => $form,
-                'newURL' => $id
+                'newURL' => $hashids->encode($id)
             ]);
         }
 

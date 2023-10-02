@@ -68,8 +68,8 @@
 						{{ form_start(form) }}
 						{{ form_row(form.url) }}
 						{% if newURL is defined %}
-							<p>New URL:
-								<code>{{ newURL }}</code>
+							<p>
+								<code>http://127.0.0.1:8000/{{ newURL }}</code>
 							</p>
 							{% else %}
 								<p><code>&nbsp;</code></p>
