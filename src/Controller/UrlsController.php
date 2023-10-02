@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class UrlsController extends AbstractController
 {
@@ -24,6 +25,18 @@ class UrlsController extends AbstractController
         $this->em = $em;
     }
 
+    #[Route('/{hid}', name: 'app_urls_show')]
+    public function show($hid): Response
+    {
+        $hashids = new Hashids();
+        $id = $hashids->decode($hid);
+        
+
+        $url = $this->urlRepository->find(reset($id));
+
+        return new RedirectResponse($url->getUrl());
+    }
+
     #[Route('/', name: 'app_urls_index')]
     public function index(Request $request): Response
     {
@@ -31,10 +44,10 @@ class UrlsController extends AbstractController
         $form = $this->createForm(UrlFormType::class, $url);
 
         $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid()){
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $newURL = $form->getData();
-            
+
 
             $url = $newURL->getUrl();
             $createdAt = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
@@ -59,7 +72,5 @@ class UrlsController extends AbstractController
         return $this->render('index.html.twig', [
             'form' => $form
         ]);
-
-        
     }
 }
