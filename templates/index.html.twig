@@ -65,17 +65,17 @@
 		<header>
 			<div class="container">
 				<div id="center-text">
-					<form action="">
-						<input type="url" class="form-control w-100" id="link" placeholder="https://example.com/">
+						{{ form_start(form) }}
+						{{ form_row(form.url) }}
 						{% if newURL is defined %}
 							<p>New URL:
-								<code>https://cut.army/asdc</code>
+								<code>{{ newURL }}</code>
 							</p>
 							{% else %}
 								<p><code>&nbsp;</code></p>
 						{% endif %}
 						<button type="submit" class="btn btn-primary mb-2 mt-2 w-100">Cut!</button>
-					</form>
+						{{ form_end(form) }}
 				</div>
 			</div>
 		</header>
